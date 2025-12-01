@@ -33,6 +33,7 @@ Route::post('/postDocumentItems', [PostWbbmController::class, 'storeItemDocument
 Route::get('/wbbm/monitor', [GetWbbmController::class, 'monitorWbbm'])->name("wbbm-monitor");
 Route::get('/wbbm/data-pencapaian', [GetWbbmController::class, 'dataCapaian'])->name("wbbm-data");
 Route::post('/upload', [GetWbbmController::class, 'storeDok'])->name('upload.store');
+Route::delete('/category/delete/{id}', [GetWbbmController::class, 'destroyCategory'])->name("category-delete");
 
 
 // Route::post('/student/school', [StudentController::class, 'store'])->name("student-school-store");

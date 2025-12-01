@@ -2,119 +2,21 @@
 
 @section('content')
     <h2>Indikator Pencapaian</h2>
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show mt-3">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="card card-body container-fluid mb-2">
-
-        {{-- <table class="table table-bordered" style="font-size: 14px;">
-            <thead class="text-center font-weight-bold text-white">
-                <tr style="background:#10608b;">
-                    <th style="width: 60%;">Rencana Kerja</th>
-                    <th style="width: 40%;">Bukti Dukung</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <!-- ========================= -->
-                <!-- I. KATEGORI 1 -->
-                <!-- ========================= -->
-                <tr style="background:#d9ead3; font-weight:bold;">
-                    <td colspan="2">I. Kategori 1</td>
-                </tr>
-
-                <!-- Sub Kategori 1 -->
-                <tr style="background:#fce5cd; font-weight:bold;">
-                    <td colspan="2">1. Sub Kategori 1</td>
-                </tr>
-
-                <!-- Item a + bukti -->
-                <tr>
-                    <td>a. Item 1</td>
-                    <td>Bukti Dukung item 1</td>
-                </tr>
-
-                <!-- Item b + bukti -->
-                <tr>
-                    <td>b. Item 2</td>
-                    <td>Bukti Dukung item 2</td>
-                </tr>
-
-                <!-- Sub Kategori 2 -->
-                <tr style="background:#fce5cd; font-weight:bold;">
-                    <td colspan="2">2. Sub Kategori 2</td>
-                </tr>
-
-                <tr>
-                    <td>a. Item 1</td>
-                    <td>
-                        Bukti Dukung item 1<br>
-                        Bukti Dukung item 1<br>
-                        Bukti Dukung item 1
-                    </td>
-                </tr>
-
-
-                <!-- ========================= -->
-                <!-- II. KATEGORI 2 -->
-                <!-- ========================= -->
-                <tr style="background:#d9ead3; font-weight:bold;">
-                    <td colspan="2">II. Kategori 2</td>
-                </tr>
-
-                <!-- Sub Kategori 1 -->
-                <tr style="background:#fce5cd; font-weight:bold;">
-                    <td colspan="2">1. Sub Kategori 1</td>
-                </tr>
-
-                <tr>
-                    <td>a. Item 1</td>
-                    <td>Bukti Dukung item 1</td>
-                </tr>
-
-                <tr>
-                    <td>b. Item 2</td>
-                    <td>Bukti Dukung item 2</td>
-                </tr>
-
-                <!-- Sub Kategori 2 -->
-                <tr style="background:#fce5cd; font-weight:bold;">
-                    <td colspan="2">2. Sub Kategori 2</td>
-                </tr>
-
-                <tr>
-                    <td>a. Item 1</td>
-                    <td>Bukti Dukung item 1</td>
-                </tr>
-
-                <!-- Sub Kategori 3 -->
-                <tr style="background:#fce5cd; font-weight:bold;">
-                    <td colspan="2">3. Sub Kategori 3</td>
-                </tr>
-
-                <tr>
-                    <td>a. Item 1</td>
-                    <td>Bukti Dukung item 1</td>
-                </tr>
-
-                <tr>
-                    <td>b. Item 2</td>
-                    <td>Bukti Dukung item 2</td>
-                </tr>
-
-                <tr>
-                    <td>c. Item 3</td>
-                    <td>Bukti Dukung item 3</td>
-                </tr>
-
-            </tbody>
-        </table> --}}
-
         <table class="table table-bordered" style="font-size: 14px;">
             <thead class="text-center font-weight-bold text-white">
-                <tr style="background:#10608b;">
+                <tr style="background:#3F4E6B;">
                     <th style="width: 50%;">Rencana Kerja</th>
-                    <th style="width: 30%;">Bukti Dukung</th>
-                    <th style="width: 20%;">Action</th>
+                    <th style="width: 45%;">Bukti Dukung</th>
+                    <th style="width: 5%;">Action</th>
                 </tr>
             </thead>
 
@@ -123,23 +25,51 @@
                 <!-- ========================= -->
                 <!-- I. KATEGORI 1 -->
                 <!-- ========================= -->
-                <tr style="background:#bedfb2; font-weight:bold;">
-                    <td colspan="3">II. Kategori 2</td>
-                </tr>
-                <!-- Sub Kategori 2 -->
-                <tr style="background:#fce5cd; font-weight:bold;">
-                    <td colspan="3">2. Sub Kategori 2</td>
-                </tr>
-
-                <tr>
-                    <td>a. Item 1</td>
-                    <td>
-                        Bukti Dukung item 1<br>
-                        Bukti Dukung item 1<br>
-                        Bukti Dukung item 1
-                    </td>
-                    <td>cc</td>
-                </tr>
+                @foreach ($categories as $key => $kategori)
+                    <tr style="background:#5DAA68; font-weight:bold;" class="text-center text-white">
+                        <td colspan="2">{{ $kategori->name }}</td>
+                        <td>
+                            {{-- <a href="#" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </a> --}}
+                            <form action="{{ route('category-delete', $kategori->id) }}" method="post"
+                                style="display: inline" class="form-check-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    @foreach ($kategori->sub_categories as $sub)
+                        <!-- Sub Kategori 2 -->
+                        <tr style="background:#F5EEC8; font-weight:bold;">
+                            <td colspan="2">{{ $loop->iteration }}. {{ $sub->name }} </td>
+                            <td>
+                                <a href="#" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @foreach ($sub->items as $item)
+                            <tr>
+                                @php
+                                    $huruf = range('a', 'z'); // menghasilkan: a, b, c, ... z
+                                @endphp
+                                <td>{{ $huruf[$loop->index] }}. {{ $item->name }}</td>
+                                <td>
+                                    @foreach ($item->item_documents as $dok)
+                                        {{ $dok->document_name }}<br>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endforeach
+                @endforeach
 
             </tbody>
         </table>

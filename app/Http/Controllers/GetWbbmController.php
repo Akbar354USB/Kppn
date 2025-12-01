@@ -63,4 +63,12 @@ class GetWbbmController extends Controller
             'item_documents_id' => $request->item_documents_id
         ]);
     }
+
+    public function destroyCategory($id)
+    {
+        $kategori = Categories::where("id", $id)->first();
+        $kategori->delete();
+
+        return redirect()->route("wbbm-data")->with('success', 'Data Kategori Rencana Kerja Berhasil diHapus!');
+    }
 }
