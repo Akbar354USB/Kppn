@@ -9,15 +9,14 @@ class ItemDocuments extends Model
 {
     protected $fillable = ['item_id', 'document_name'];
 
-    // Relasi: item_dokuments milik satu item
-    public function items()
+    public function item()
     {
         return $this->belongsTo(Items::class, 'item_id');
     }
 
-    // Relasi: Satu item_dokuments memiliki banyak upload
-    public function uploads()
+    // satu dokumen → satu upload
+    public function upload()
     {
-        return $this->hasMany(Uploads::class);
+        return $this->hasOne(Uploads::class, 'item_documents_id');
     }
 }

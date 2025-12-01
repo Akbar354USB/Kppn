@@ -9,9 +9,9 @@ class Uploads extends Model
 {
     protected $fillable = ['item_documents_id', 'file_path'];
 
-    // Relasi: upload milik satu item_documents
-    public function item_documents()
+    // Upload milik satu item_document
+    public function item_document()
     {
-        return $this->belongsTo(ItemDocuments::class);
+        return $this->belongsTo(ItemDocuments::class, 'item_documents_id');
     }
 }
