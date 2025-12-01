@@ -23,10 +23,18 @@ class Categories extends Model
         $uploaded = 0;
 
         foreach ($this->sub_categories as $sub) {
+
             foreach ($sub->items as $item) {
+
+                // 1. Hitung total dokumen berdasarkan required_document
+                $totalDocs += $item->required_document;
+
+                // 2. Hitung dokumen yang sudah diupload.
+                //    Jika required_document = 3, maka cek 3 item_documents
                 foreach ($item->item_documents as $doc) {
-                    $totalDocs++;
-                    if ($doc->uploads) $uploaded++;
+                    if ($doc->uploads) {
+                        $uploaded++;
+                    }
                 }
             }
         }

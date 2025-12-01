@@ -36,6 +36,7 @@ Route::post('/upload', [GetWbbmController::class, 'storeDok'])->name('upload.sto
 Route::delete('/category/delete/{id}', [GetWbbmController::class, 'destroyCategory'])->name("category-delete");
 Route::delete('/subcategory/delete/{id}', [GetWbbmController::class, 'destroySubCategory'])->name("subcategory-delete");
 Route::delete('/item/delete/{id}', [GetWbbmController::class, 'destroyItem'])->name("item-delete");
+Route::delete('/document/delete/{id}', [GetWbbmController::class, 'destroyDocument'])->name("document-delete");
 
 // Route::post('/student/school', [StudentController::class, 'store'])->name("student-school-store");
 // Route::delete('/student/delete/{id}', [StudentController::class, 'destroy'])->name("student-delete");

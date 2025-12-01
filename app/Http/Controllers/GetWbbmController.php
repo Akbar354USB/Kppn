@@ -9,6 +9,7 @@ use App\Models\SubCategories;
 use App\Models\Uploads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class GetWbbmController extends Controller
 {
@@ -87,5 +88,22 @@ class GetWbbmController extends Controller
         $item->delete();
 
         return redirect()->route("wbbm-data")->with('success', 'Data Item Point Rencana Kerja Berhasil diHapus!');
+    }
+
+    public function destroyDocument($id)
+    {
+        $upload = Uploads::findOrFail($id);
+
+        // Hapus file fisik dari storage/app/public
+        if (Storage::disk('public')->exists($upload->file_path)) {
+            Storage::disk('public')->delete($upload->file_path);
+        }
+
+        // Hapus data dari database
+        $upload->delete();
+
+        return redirect()
+            ->route("wbbm-monitor")
+            ->with('success', 'Dokumen Bukti Dukung Berhasil dihapus!');
     }
 }

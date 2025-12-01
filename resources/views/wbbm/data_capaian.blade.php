@@ -62,7 +62,7 @@
                                 <td>{{ $huruf[$loop->index] }}. {{ $item->name }}</td>
                                 <td>
                                     @foreach ($item->item_documents as $dok)
-                                        {{ $dok->document_name }}<br>
+                                        - {{ $dok->document_name }}<br>
                                     @endforeach
                                 </td>
                                 <td>

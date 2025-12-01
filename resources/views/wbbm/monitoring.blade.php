@@ -14,9 +14,16 @@
 @endsection
 @section('content')
     <div class="container mt-4">
-        <h3 class="mb-4">Monitor Parameter Pencapaian WBBM</h3>
+        <h3 class="mb-4">Monitor Indikator Pencapaian WBBM</h3>
     </div>
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show mt-3">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="container-fluid">
         @foreach ($categories as $key => $kategori)
             <div class="card p-3 mb-2">
@@ -34,7 +41,7 @@
                 </div>
                 <div id="menu-{{ $kategori->id }}" class="collapse mt-2">
                     <div class="ml-3">
-                        <h6>Progress : 75%</h6>
+                        <span><strong>Progress : {{ $kategori->progress() }}%</strong></span>
                     </div>
                     <div class="progress ml-3 mr-5 mt-2 mb-3">
                         <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="25"
@@ -104,11 +111,18 @@
                                                                         📄 Lihat File
                                                                     </a>
 
-                                                                    <button class="btn btn-danger btn-sm delete-upload"
-                                                                        data-upload-id="{{ $dok->upload->id }}"
-                                                                        data-doc-id="{{ $dok->id }}">
-                                                                        Hapus
-                                                                    </button>
+                                                                    <form
+                                                                        action="{{ route('document-delete', $dok->upload->id) }}"
+                                                                        method="post" style="display: inline"
+                                                                        class="form-check-inline">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button class="btn btn-danger btn-sm delete-upload"
+                                                                            data-upload-id="{{ $dok->upload->id }}"
+                                                                            data-doc-id="{{ $dok->id }}">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </form>
                                                                 @else
                                                                     <span class="text-danger">❌ Belum Upload</span>
                                                                 @endif
