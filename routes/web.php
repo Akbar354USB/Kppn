@@ -34,7 +34,8 @@ Route::get('/wbbm/monitor', [GetWbbmController::class, 'monitorWbbm'])->name("wb
 Route::get('/wbbm/data-pencapaian', [GetWbbmController::class, 'dataCapaian'])->name("wbbm-data");
 Route::post('/upload', [GetWbbmController::class, 'storeDok'])->name('upload.store');
 Route::delete('/category/delete/{id}', [GetWbbmController::class, 'destroyCategory'])->name("category-delete");
-
+Route::delete('/subcategory/delete/{id}', [GetWbbmController::class, 'destroySubCategory'])->name("subcategory-delete");
+Route::delete('/item/delete/{id}', [GetWbbmController::class, 'destroyItem'])->name("item-delete");
 
 // Route::post('/student/school', [StudentController::class, 'store'])->name("student-school-store");
 // Route::delete('/student/delete/{id}', [StudentController::class, 'destroy'])->name("student-delete");

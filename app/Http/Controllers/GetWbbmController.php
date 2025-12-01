@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\ItemDocuments;
 use App\Models\Items;
+use App\Models\SubCategories;
 use App\Models\Uploads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -70,5 +71,21 @@ class GetWbbmController extends Controller
         $kategori->delete();
 
         return redirect()->route("wbbm-data")->with('success', 'Data Kategori Rencana Kerja Berhasil diHapus!');
+    }
+
+    public function destroySubCategory($id)
+    {
+        $subkategori = SubCategories::where("id", $id)->first();
+        $subkategori->delete();
+
+        return redirect()->route("wbbm-data")->with('success', 'Data Point Kategori Rencana Kerja Berhasil diHapus!');
+    }
+
+    public function destroyItem($id)
+    {
+        $item = Items::where("id", $id)->first();
+        $item->delete();
+
+        return redirect()->route("wbbm-data")->with('success', 'Data Item Point Rencana Kerja Berhasil diHapus!');
     }
 }

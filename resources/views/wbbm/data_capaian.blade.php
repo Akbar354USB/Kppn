@@ -45,9 +45,13 @@
                         <tr style="background:#F5EEC8; font-weight:bold;">
                             <td colspan="2">{{ $loop->iteration }}. {{ $sub->name }} </td>
                             <td>
-                                <a href="#" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                <form action="{{ route('subcategory-delete', $sub->id) }}" method="post"
+                                    style="display: inline" class="form-check-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" type="submit"><i
+                                            class="fas fa-trash"></i></button>
+                                </form>
                             </td>
                         </tr>
                         @foreach ($sub->items as $item)
@@ -62,9 +66,13 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <form action="{{ route('item-delete', $item->id) }}" method="post"
+                                        style="display: inline" class="form-check-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-sm" type="submit"><i
+                                                class="fas fa-trash"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
