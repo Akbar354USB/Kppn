@@ -31,6 +31,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">WBBM</h6>
                     <a class="collapse-item" href="{{ route('wbbm-create') }}">Input Kategori</a>
+                    <a class="collapse-item" href="{{ route('wbbm-tes-progres') }}">Cek Progress</a>
                     <a class="collapse-item" href="{{ route('wbbm-data') }}">Indikator Capaian</a>
                     <a class="collapse-item" href="{{ route('wbbm-monitor') }}">Monitor Pencapaian</a>
                 </div>

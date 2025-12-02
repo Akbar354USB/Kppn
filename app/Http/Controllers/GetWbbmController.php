@@ -106,4 +106,14 @@ class GetWbbmController extends Controller
             ->route("wbbm-monitor")
             ->with('success', 'Dokumen Bukti Dukung Berhasil dihapus!');
     }
+
+
+    public function tesProgress()
+    {
+        $categories = Categories::with([
+            'sub_categories.items.item_documents.upload' // perbaiki uploads → upload
+        ])->get();
+
+        return view('wbbm.tes_progres', compact('categories'));
+    }
 }

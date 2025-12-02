@@ -47,6 +47,8 @@ Route::get('/kategori/{id}/progress', function ($id) {
     ]);
 });
 
+Route::get('/wbbm/cek-progress', [GetWbbmController::class, 'tesProgress'])->name("wbbm-tes-progres");
+
 
 
 // Route::post('/student/school', [StudentController::class, 'store'])->name("student-school-store");
