@@ -40,11 +40,6 @@
                         <p>{{ $kategori->name }}</p>
                     </td>
                     <td class="cell-left" style="width: 60%;">
-                        {{-- <div class="progress" style="height: 40px;">
-                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100">25%</div>
-                        </div> --}}
-
                         <div class="progress" style="height: 40px;">
                             <div id="progress-bar-{{ $kategori->id }}" class="progress-bar progress-animated"
                                 role="progressbar" style="width: {{ $kategori->progress() }}%"
