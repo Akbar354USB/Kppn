@@ -16,23 +16,20 @@ class Categories extends Model
         return $this->hasMany(SubCategories::class);
     }
 
-    // Hitung progress kategori
     public function progress()
     {
         $totalDocs = 0;
         $uploaded = 0;
 
         foreach ($this->sub_categories as $sub) {
-
             foreach ($sub->items as $item) {
 
-                // 1. Hitung total dokumen berdasarkan required_document
-                $totalDocs += $item->required_document;
+                // 1. Hitung total dokumen dari jumlah item_documents
+                $totalDocs += $item->item_documents->count();
 
-                // 2. Hitung dokumen yang sudah diupload.
-                //    Jika required_document = 3, maka cek 3 item_documents
+                // 2. Hitung dokumen yang sudah diupload
                 foreach ($item->item_documents as $doc) {
-                    if ($doc->uploads) {
+                    if ($doc->upload()->exists()) {
                         $uploaded++;
                     }
                 }

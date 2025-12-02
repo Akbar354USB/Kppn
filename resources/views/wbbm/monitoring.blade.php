@@ -10,12 +10,18 @@
         .rotate-icon {
             transition: 0.3s;
         }
+
+        .progress-animated {
+            transition: width 0.5s ease-in-out;
+        }
     </style>
 @endsection
+
 @section('content')
     <div class="container mt-4">
         <h3 class="mb-4">Monitor Indikator Pencapaian WBBM</h3>
     </div>
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show mt-3">
             {{ session('success') }}
@@ -24,31 +30,51 @@
             </button>
         </div>
     @endif
+
     <div class="container-fluid">
         @foreach ($categories as $key => $kategori)
-            <div class="card p-3 mb-2">
+            <div class="card p-3 mb-2" data-kategori="{{ $kategori->id }}">
+
+                <!-- HEADER KATEGORI -->
                 <div class="d-flex justify-content-between align-items-center" data-toggle="collapse"
                     data-target="#menu-{{ $kategori->id }}" style="cursor: pointer;">
-                    <div class="d-flex align-items-center ">
+
+                    <div class="d-flex align-items-center">
                         <div class="bg-primary text-white d-flex justify-content-center align-items-center"
                             style="width: 28px; height: 28px; border-radius: 6px;">
                             {{ $key + 1 }}
                         </div>
-                        <div class="ml-3 font-weight">{{ $kategori->name }}</div>
-                    </div>
-                    <!-- Panah -->
-                    <i class="fas fa-chevron-down rotate-icon" data-target="#icon-{{ $kategori->id }}"></i>
-                </div>
-                <div id="menu-{{ $kategori->id }}" class="collapse mt-2">
-                    <div class="ml-3">
-                        <span><strong>Progress : {{ $kategori->progress() }}%</strong></span>
-                    </div>
-                    <div class="progress ml-3 mr-5 mt-2 mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="25"
-                            aria-valuemin="0" aria-valuemax="100">75%</div>
+
+                        <div class="ml-3 font-weight-bold">{{ $kategori->name }}</div>
                     </div>
 
-                    {{-- //subkategori --}}
+                    <i class="fas fa-chevron-down rotate-icon"></i>
+                </div>
+
+                <!-- BODY KATEGORI -->
+                <div id="menu-{{ $kategori->id }}" class="collapse mt-2">
+
+                    <!-- PROGRESS BAR -->
+                    <div class="ml-3">
+                        <strong>
+                            Progress:
+                            <span id="progress-text-{{ $kategori->id }}">
+                                {{ $kategori->progress() }}%
+                            </span>
+                        </strong>
+                    </div>
+
+                    <div class="progress ml-3 mr-5 mt-2 mb-3">
+                        <div id="progress-bar-{{ $kategori->id }}" class="progress-bar progress-animated" role="progressbar"
+                            style="width: {{ $kategori->progress() }}%">
+                            {{ $kategori->progress() }}%
+                        </div>
+                    </div>
+
+                    <!-- SUBKATEGORI -->
+                    {{-- @foreach ($kategori->sub_categories as $sub)
+
+                    @endforeach --}}
                     @foreach ($kategori->sub_categories as $sub)
                         <div class="card p-3 mb-1">
                             <div class="d-flex justify-content-between align-items-center" data-toggle="collapse"
@@ -132,9 +158,23 @@
                                                             {{-- Form Upload --}}
                                                             <td>
                                                                 {{-- Tampil tombol lihat jika ada file --}}
+                                                                {{-- <form class="ajax-upload" data-id="{{ $dok->id }}"
+                                                                    enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    <input type="file" name="file"
+                                                                        class="form-control form-control-sm mb-2" required>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-sm">Upload</button>
+
+                                                                    <div class="upload-status mt-1"></div>
+                                                                </form> --}}
                                                                 <form class="ajax-upload" data-id="{{ $dok->id }}"
                                                                     enctype="multipart/form-data">
                                                                     @csrf
+
+                                                                    <input type="hidden" name="item_documents_id"
+                                                                        value="{{ $dok->id }}">
+
                                                                     <input type="file" name="file"
                                                                         class="form-control form-control-sm mb-2" required>
                                                                     <button type="submit"
@@ -155,124 +195,84 @@
                             </div>
                         </div>
                     @endforeach
+
                 </div>
             </div>
         @endforeach
     </div>
 @endsection
 
+
 @section('js')
     <script>
         // ===============================
-        // 1. HANDLE KATEGORI COLLAPSE
+        // 1. HANDLE COLLAPSE KATEGORI
         // ===============================
 
-        // Jika salah satu kategori dibuka
-        $('[id^="sub-"]').on('show.bs.collapse', function() {
+        // Saat kategori dibuka
+        $('[id^="menu-"]').on('show.bs.collapse', function() {
             // Tutup kategori lain
-            $('[id^="sub-"]').not(this).collapse('hide');
+            $('[id^="menu-"]').not(this).collapse('hide');
 
-            // Aktifkan rotate icon untuk kategori yang dibuka
-            $(this)
-                .prev() // ambil header card
-                .find('.rotate-icon') // cari icon di header itu
-                .addClass('rotate');
+            // Putar icon
+            $(this).prev().find('.rotate-icon').addClass('rotate');
         });
 
-        // Jika kategori ditutup
-        $('[id^="sub-"]').on('hide.bs.collapse', function() {
-            $(this)
-                .prev()
-                .find('.rotate-icon')
-                .removeClass('rotate');
+        // Saat kategori ditutup
+        $('[id^="menu-"]').on('hide.bs.collapse', function() {
+            $(this).prev().find('.rotate-icon').removeClass('rotate');
         });
 
 
+        // ===============================
+        // 2. AJAX UPLOAD + UPDATE PROGRESS
+        // ===============================
 
-        // ======================================
-        // 2. HANDLE SUB-KATEGORI COLLAPSE
-        // ======================================
+        $(document).on('submit', '.ajax-upload', function(e) {
+            e.preventDefault();
 
-        $('[id^="subitem-"]').on('show.bs.collapse', function() {
-            // Tutup item lain di level yang sama
-            $('[id^="subitem-"]').not(this).collapse('hide');
+            let form = $(this);
+            let formData = new FormData(this);
+            let item_documents_id = form.data('id');
+            let statusBox = form.find('.upload-status');
 
-            // Putar icon item
-            $(this)
-                .prev()
-                .find('.rotate-icon')
-                .addClass('rotate');
-        });
+            statusBox.html('<span class="text-info">Mengupload...</span>');
 
-        $('[id^="subitem-"]').on('hide.bs.collapse', function() {
-            $(this)
-                .prev()
-                .find('.rotate-icon')
-                .removeClass('rotate');
-        });
+            $.ajax({
+                url: "{{ route('upload.store') }}",
+                method: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
 
-        // ======================================
-        // 2. HANDLE item COLLAPSE
-        // ======================================
+                success: function(res) {
+                    if (res.success) {
+                        statusBox.html('<span class="text-success">✔ Berhasil upload</span>');
 
-        $('[id^="subitem-"]').on('show.bs.collapse', function() {
-            // Tutup item lain di level yang sama
-            $('[id^="subitem-"]').not(this).collapse('hide');
-
-            // Putar icon item
-            $(this)
-                .prev()
-                .find('.rotate-icon')
-                .addClass('rotate');
-        });
-
-        $('[id^="subitem-"]').on('hide.bs.collapse', function() {
-            $(this)
-                .prev()
-                .find('.rotate-icon')
-                .removeClass('rotate');
-        });
-    </script>
-    <script>
-        document.querySelectorAll('.ajax-upload').forEach(form => {
-
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault(); // cegah reload
-
-                const id = this.dataset.id;
-                const statusBox = this.querySelector('.upload-status');
-
-                let formData = new FormData(this);
-                formData.append('item_documents_id', id);
-
-                statusBox.innerHTML = '<span class="text-info">Mengupload...</span>';
-
-                try {
-                    const response = await fetch("{{ route('upload.store') }}", {
-                        method: "POST",
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-                    if (result.success) {
-                        statusBox.innerHTML = `<span class="text-success">✔ Berhasil upload</span>`;
-
-                        // Update tampilan status tanpa reload
-                        const cell = document.querySelector(`#status-${id}`);
-                        if (cell) {
-                            cell.innerHTML =
-                                `<a href="${result.file_url}" target="_blank">📄 Lihat File</a>`;
+                        // Update status dokumen tanpa reload
+                        let cell = $(`#status-${item_documents_id}`);
+                        if (cell.length) {
+                            cell.html(`<a href="${res.file_url}" target="_blank">📄 Lihat File</a>`);
                         }
-                    } else {
-                        statusBox.innerHTML = `<span class="text-danger">Gagal upload</span>`;
-                    }
 
-                } catch (error) {
-                    statusBox.innerHTML = `<span class="text-danger">Error saat upload</span>`;
+                        // UPDATE PROGRES KATEGORI
+                        let kategoriId = form.closest('[data-kategori]').data('kategori');
+
+                        $.get(`/kategori/${kategoriId}/progress`, function(data) {
+                            let progressBar = $(`#progress-bar-${kategoriId}`);
+                            progressBar.css("width", data.progress + "%");
+                            progressBar.text(data.progress + "%");
+                            $(`#progress-text-${kategoriId}`).text(data.progress + "%");
+                        });
+                    } else {
+                        statusBox.html('<span class="text-danger">Gagal upload</span>');
+                    }
+                },
+
+                error: function() {
+                    statusBox.html('<span class="text-danger">Terjadi kesalahan saat upload</span>');
                 }
             });
-
         });
     </script>
 @endsection

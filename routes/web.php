@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\GetWbbmController;
 use App\Http\Controllers\PostWbbmController;
+use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,16 @@ Route::delete('/category/delete/{id}', [GetWbbmController::class, 'destroyCatego
 Route::delete('/subcategory/delete/{id}', [GetWbbmController::class, 'destroySubCategory'])->name("subcategory-delete");
 Route::delete('/item/delete/{id}', [GetWbbmController::class, 'destroyItem'])->name("item-delete");
 Route::delete('/document/delete/{id}', [GetWbbmController::class, 'destroyDocument'])->name("document-delete");
+
+Route::get('/kategori/{id}/progress', function ($id) {
+    $kategori = Categories::with('sub_categories.items.item_documents.upload')->findOrFail($id);
+
+    return response()->json([
+        'progress' => $kategori->progress()
+    ]);
+});
+
+
 
 // Route::post('/student/school', [StudentController::class, 'store'])->name("student-school-store");
 // Route::delete('/student/delete/{id}', [StudentController::class, 'destroy'])->name("student-delete");
