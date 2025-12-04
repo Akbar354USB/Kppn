@@ -15,6 +15,11 @@
 
                 <a href="{{ route('guest_book_create') }}" class="btn btn-primary mb-3">+ Tambah Tamu</a>
 
+                <a href="{{ route('guest_book_print_pdf', request()->query()) }}" class="btn btn-danger mb-3" target="_blank">
+                    Print PDF
+                </a>
+
+
 
                 <form action="{{ route('guest_book_index') }}" method="GET" class="mb-3">
 

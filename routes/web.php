@@ -60,6 +60,9 @@ Route::post('/guest_book', [GuestBookController::class, 'store'])->name('guest_b
 Route::get('/guest_book/{id}/edit', [GuestBookController::class, 'edit'])->name('guest_book_edit');
 Route::put('/guest_book/{id}', [GuestBookController::class, 'update'])->name('guest_book_update');
 Route::delete('/guest_book/{id}', [GuestBookController::class, 'destroy'])->name('guest_book_destroy');
+Route::get('/guest-book/print/pdf', [GuestBookController::class, 'printPdf'])
+    ->name('guest_book_print_pdf');
+
 
 
 
