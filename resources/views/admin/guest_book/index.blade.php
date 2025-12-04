@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header py-3">
                 <h5 class="m-0 font-weight-bold text-primary">Daftar Buku Tamu</h5>
             </div>

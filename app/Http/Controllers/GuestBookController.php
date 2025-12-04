@@ -89,52 +89,10 @@ class GuestBookController extends Controller
             ->with('success', 'Data tamu berhasil disimpan.');
     }
 
-    // public function printPdf(Request $request)
-    // {
-    //     $guestBooks = GuestBook::with('employees')->latest();
-
-    //     // FILTER TANGGAL
-    //     if ($request->date) {
-    //         $guestBooks->whereDate('created_at', $request->date);
-    //     }
-
-    //     // FILTER BULAN
-    //     if ($request->month) {
-    //         $guestBooks->whereYear('created_at', substr($request->month, 0, 4))
-    //             ->whereMonth('created_at', substr($request->month, 5, 2));
-    //     }
-
-    //     // RANGE
-    //     if ($request->start_date && $request->end_date) {
-    //         $guestBooks->whereBetween('created_at', [$request->start_date, $request->end_date]);
-    //     }
-
-    //     $data = $guestBooks->get();
-
-    //     // ==============================
-    //     // NAMA FILE BERDASARKAN FILTER
-    //     // ==============================
-    //     if ($request->date) {
-    //         $fileName = 'buku_tamu_' . $request->date . '.pdf';
-    //     } elseif ($request->month) {
-    //         $fileName = 'buku_tamu_' . str_replace('-', '_', $request->month) . '.pdf';
-    //     } elseif ($request->start_date && $request->end_date) {
-    //         $fileName = 'buku_tamu_' . $request->start_date . '_sd_' . $request->end_date . '.pdf';
-    //     } else {
-    //         $fileName = 'buku_tamu_semua_data.pdf';
-    //     }
-
-    //     // GENERATE PDF
-    //     $pdf = Pdf::loadView('admin.guest_book.pdf', compact('data'))
-    //         ->setPaper('A4', 'landscape');
-
-    //     return $pdf->stream($fileName);
-    // }
-
     public function printPdf(Request $request)
     {
         $guestBooks = GuestBook::with('employees')->latest();
-
+        \Carbon\Carbon::setLocale('id'); // ⬅ penting
         // ==============================
         // KETERANGAN WAKTU UNTUK VIEW
         // ==============================
@@ -144,10 +102,8 @@ class GuestBookController extends Controller
         if ($request->date) {
             $guestBooks->whereDate('created_at', $request->date);
 
-            // $filterText = "Tanggal : " . \Carbon\Carbon::parse($request->date)
-            //     ->translatedFormat('d F Y');
             $filterText = \Carbon\Carbon::parse($request->date)
-                ->translatedFormat('d F Y');
+                ->translatedFormat('d/m/y');
         }
 
         // FILTER BULAN
@@ -158,18 +114,18 @@ class GuestBookController extends Controller
             $guestBooks->whereYear('created_at', $tahun)
                 ->whereMonth('created_at', $bulan);
 
-            $filterText = "Bulan : " . \Carbon\Carbon::parse($request->month . "-01")
-                ->translatedFormat('F Y');
+            $filterText = \Carbon\Carbon::parse($request->month . "-01")
+                ->translatedFormat('m/y');
         }
 
         // RANGE
         if ($request->start_date && $request->end_date) {
             $guestBooks->whereBetween('created_at', [$request->start_date, $request->end_date]);
 
-            $filterText = "Periode : " .
-                \Carbon\Carbon::parse($request->start_date)->translatedFormat('d F Y') .
+            $filterText =
+                \Carbon\Carbon::parse($request->start_date)->translatedFormat('d/m/y') .
                 " s/d " .
-                \Carbon\Carbon::parse($request->end_date)->translatedFormat('d F Y');
+                \Carbon\Carbon::parse($request->end_date)->translatedFormat('d/m/y');
         }
 
 

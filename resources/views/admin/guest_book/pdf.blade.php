@@ -211,12 +211,13 @@
     <br><br>
     <table style="width: 100%; border: none; margin-top: 20px;">
         <tr>
-            <td style="width: 60%; border: none;"></td>
-            <td style="width: 40%; border: none; text-align: center;">
+            <td style="width: 75%; border: none;"></td>
+            <td style="width: 25%; border: none; text-align: left;">
 
+                {{-- Majene, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }} <br> --}}
                 Majene, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }} <br>
                 Mengetahui, <br>
-                Kepala Subbagian umum <br><br><br><br><br><br><br><br>
+                Kepala Subbagian umum <br><br><br><br><br><br><br>
 
                 {{-- Jika punya file tanda tangan png, aktifkan baris ini --}}
                 {{-- <img src="{{ public_path('ttd_kepala.png') }}" width="120"> --}}
