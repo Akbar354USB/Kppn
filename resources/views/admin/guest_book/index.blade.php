@@ -66,6 +66,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Tamu</th>
                             <th>Nomor HP</th>
                             <th>Instansi</th>
@@ -77,8 +78,9 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($guestBooks as $g)
+                        @foreach ($guestBooks as $key => $g)
                             <tr>
+                                <td>{{ $guestBooks->firstItem() + $key }}</td>
                                 <td>{{ $g->guest_name }}</td>
                                 <td>{{ $g->number_phone }}</td>
                                 <td>{{ $g->agency }}</td>
@@ -109,6 +111,9 @@
                     </tbody>
 
                 </table>
+                <div class="mt-3 float-right">
+                    {{ $guestBooks->links() }}
+                </div>
 
             </div>
         </div>

@@ -47,7 +47,8 @@ class GuestBookController extends Controller
         }
 
         // Ambil data
-        $guestBooks = $query->latest()->get();
+        // $guestBooks = $query->latest()->get();
+        $guestBooks = $query->latest()->paginate(10)->appends($request->all());
 
         return view('admin.guest_book.index', compact('guestBooks'));
     }
