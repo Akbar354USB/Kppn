@@ -10,6 +10,10 @@
             </button>
         </div>
     @endif
+    <a href="{{ route('wbbm-create') }}"><button type="button" class="btn btn-primary mb-3">+ Data</button></a>
+    <a href="{{ route('wbbm-monitor') }}"><button type="button" class="btn btn-primary mb-3">Upload Dokumen Dan Cek
+            Progres</button></a>
+
     <div class="card card-body container-fluid mb-2">
         <table class="table table-bordered" style="font-size: 14px;">
             <thead class="text-center font-weight-bold text-white">

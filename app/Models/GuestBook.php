@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class GuestBook extends Model
 {
-    use HasFactory;
+    protected $fillable = ['guest_name', 'number_phone', 'agency', 'objective', 'arrival_time'];
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_guest_book');
+    }
 }

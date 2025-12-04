@@ -16,10 +16,18 @@
             Features
         </div>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGuest"
+                aria-expanded="true" aria-controls="collapseTable">
                 <i class="fab fa-fw fa-wpforms"></i>
                 <span>Buku Tamu</span>
             </a>
+            <div id="collapseGuest" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Buku Tamu</h6>
+                    <a class="collapse-item" href="{{ route('guest_book_create') }}">Form Buku Tamu</a>
+                    <a class="collapse-item" href="{{ route('guest_book_index') }}">Daftar Tamu</a>
+                </div>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable"
@@ -30,10 +38,8 @@
             <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">WBBM</h6>
-                    <a class="collapse-item" href="{{ route('wbbm-create') }}">Input Kategori</a>
                     <a class="collapse-item" href="{{ route('wbbm-tes-progres') }}">Cek Progress</a>
                     <a class="collapse-item" href="{{ route('wbbm-data') }}">Indikator Capaian</a>
-                    <a class="collapse-item" href="{{ route('wbbm-monitor') }}">Monitor Pencapaian</a>
                 </div>
             </div>
         </li>

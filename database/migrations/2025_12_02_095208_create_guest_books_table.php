@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('number_phone');
             $table->string('agency');
             $table->string('objective');
-            $table->unsignedBigInteger('employee_id');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->time('arrival_time')->nullable(); // bisa nullable jika tidak wajib diisi
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
