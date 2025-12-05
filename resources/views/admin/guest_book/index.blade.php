@@ -67,6 +67,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Nama Tamu</th>
                             <th>Nomor HP</th>
                             <th>Instansi</th>
@@ -81,6 +82,7 @@
                         @foreach ($guestBooks as $key => $g)
                             <tr>
                                 <td>{{ $guestBooks->firstItem() + $key }}</td>
+                                <td>{{ \Carbon\Carbon::parse($g->created_at)->format('d/m/y') }}</td>
                                 <td>{{ $g->guest_name }}</td>
                                 <td>{{ $g->number_phone }}</td>
                                 <td>{{ $g->agency }}</td>

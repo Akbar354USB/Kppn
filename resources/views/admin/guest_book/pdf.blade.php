@@ -178,6 +178,7 @@
         <thead>
             <tr>
                 <th style="text-align: center">No</th>
+                <th style="text-align: center">Tanggal</th>
                 <th style="text-align: center">Nama Tamu</th>
                 <th style="text-align: center">Nomor HP</th>
                 <th style="text-align: center">Instansi</th>
@@ -191,6 +192,7 @@
             @foreach ($data as $key => $g)
                 <tr>
                     <td style="text-align: center">{{ $key + 1 }}</td>
+                    <td style="text-align: center">{{ \Carbon\Carbon::parse($g->created_at)->format('d/m/Y') }}</td>
                     <td>{{ $g->guest_name }}</td>
                     <td style="text-align: center">{{ $g->number_phone }}</td>
                     <td>{{ $g->agency }}</td>

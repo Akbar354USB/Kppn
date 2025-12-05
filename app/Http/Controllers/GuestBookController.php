@@ -104,7 +104,7 @@ class GuestBookController extends Controller
             $guestBooks->whereDate('created_at', $request->date);
 
             $filterText = \Carbon\Carbon::parse($request->date)
-                ->translatedFormat('d/m/y');
+                ->translatedFormat('d F Y');
         }
 
         // FILTER BULAN
@@ -116,7 +116,7 @@ class GuestBookController extends Controller
                 ->whereMonth('created_at', $bulan);
 
             $filterText = \Carbon\Carbon::parse($request->month . "-01")
-                ->translatedFormat('m/y');
+                ->translatedFormat('F Y');
         }
 
         // RANGE
@@ -124,9 +124,9 @@ class GuestBookController extends Controller
             $guestBooks->whereBetween('created_at', [$request->start_date, $request->end_date]);
 
             $filterText =
-                \Carbon\Carbon::parse($request->start_date)->translatedFormat('d/m/y') .
+                \Carbon\Carbon::parse($request->start_date)->translatedFormat('d F Y') .
                 " s/d " .
-                \Carbon\Carbon::parse($request->end_date)->translatedFormat('d/m/y');
+                \Carbon\Carbon::parse($request->end_date)->translatedFormat('d F Y');
         }
 
 
