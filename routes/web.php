@@ -2,10 +2,14 @@
 
 // use App\Http\Controllers\CategoriController;
 
+use App\Http\Controllers\EmailRecipientController;
+use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\GetWbbmController;
 use App\Http\Controllers\GuestBookController;
 use App\Http\Controllers\PostWbbmController;
+use App\Mail\AbsensiReminderMail;
 use App\Models\Categories;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +53,6 @@ Route::get('/kategori/{id}/progress', function ($id) {
 });
 
 
-
-
-// Route::get('/guest-book/create', [GuestBookController::class, 'create'])->name("guest-book-create");
-
-
 Route::get('/guest_book/index', [GuestBookController::class, 'index'])->name('guest_book_index');
 Route::get('/guest_book/create', [GuestBookController::class, 'create'])->name('guest_book_create');
 Route::post('/guest_book', [GuestBookController::class, 'store'])->name('guest_book_store');
@@ -62,6 +61,22 @@ Route::put('/guest_book/{id}', [GuestBookController::class, 'update'])->name('gu
 Route::delete('/guest_book/{id}', [GuestBookController::class, 'destroy'])->name('guest_book_destroy');
 Route::get('/guest-book/print/pdf', [GuestBookController::class, 'printPdf'])
     ->name('guest_book_print_pdf');
+
+// Route::get('/guest_book/index', [GuestBookController::class, 'index'])->name('guest_book_index');
+
+Route::get('/templates/index', [EmailTemplateController::class, 'index'])->name('templates.index');
+Route::get('/templates/{id}/edit', [EmailTemplateController::class, 'edit'])->name('templates.edit');
+Route::put('/templates/{id}', [EmailTemplateController::class, 'update'])->name('templates.update');
+
+Route::get('/email-recipients/create', [EmailRecipientController::class, 'create'])->name('recipients.create');
+Route::post('/email-recipients', [EmailRecipientController::class, 'store'])->name('recipients.store');
+Route::get('/email-recipients/index', [EmailRecipientController::class, 'index'])->name('recipients.index');
+Route::get('/email-recipients/{id}/edit', [EmailRecipientController::class, 'edit'])->name('recipients.edit');
+Route::put('/email-recipients/{id}', [EmailRecipientController::class, 'update'])->name('recipients.update');
+Route::delete('/email-recipients/{id}', [EmailRecipientController::class, 'destroy'])->name('recipients.destroy');
+
+
+
 
 
 

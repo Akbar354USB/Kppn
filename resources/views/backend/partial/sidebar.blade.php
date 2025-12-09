@@ -30,14 +30,28 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseemail"
+                aria-expanded="true" aria-controls="collapseTable">
+                <i class="fab fa-fw fa-wpforms"></i>
+                <span>Reminder</span>
+            </a>
+            <div id="collapseemail" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Buku Tamu</h6>
+                    <a class="collapse-item" href="{{ route('recipients.index') }}">Penerima Email</a>
+                    <a class="collapse-item" href="{{ route('templates.index') }}">Template Email</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable"
                 aria-expanded="true" aria-controls="collapseTable">
                 <i class="fas fa-fw fa-table"></i>
-                <span>WBBM</span>
+                <span>WBK-WBBM</span>
             </a>
             <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">WBBM</h6>
+                    <h6 class="collapse-header">WBK-WBBM</h6>
                     <a class="collapse-item" href="{{ route('wbbm-tes-progres') }}">Cek Progress</a>
                     <a class="collapse-item" href="{{ route('wbbm-data') }}">Indikator Capaian</a>
                 </div>
